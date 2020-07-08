@@ -1,0 +1,65 @@
+<%@page import="java.sql.*"%>
+<%
+    String uname=request.getParameter("utext");
+    String upass=request.getParameter("pass");
+    try
+    {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/notice board","root","root");
+        String qr="select*from login where uname=? and upass=?";
+        PreparedStatement ps=conn.prepareStatement(qr);
+        
+            String s1=request.getParameter("utext");
+            String s2=request.getParameter("pass");
+            String s3=request.getParameter("utype");
+            if(s3.equals("admin"))
+        {
+
+            if(s1.equals("admin") && s2.equals("indore"))
+            {
+                response.sendRedirect("adminhome.jsp");
+            }
+            else
+            {
+                out.println("Invalid Admin");
+            }
+        }
+        else
+            {
+               try
+               {
+                   ps.setString(1,"utext");
+                ps.setString(2,"pass");
+              ResultSet rs=ps.executeQuery();
+                while(rs.next())
+                    
+                {
+                        boolean b=rs.next();
+                      if(b==true)
+                      {
+                          response.sendRedirect("studenthome.jsp");
+                      }
+                      else
+                      {
+                          
+                            out.println("Invalid Student");
+            
+                      }
+         
+                }
+                
+           
+               }
+               catch(Exception e)
+               {
+                   
+               }
+            }
+        
+        
+    }
+    catch(Exception e)
+    {
+        
+    }
+    %>
